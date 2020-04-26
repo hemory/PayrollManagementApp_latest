@@ -1,0 +1,10 @@
+﻿paul|23
+pauline|45
+hemory|20
+hem|34
+house|23
+hemory|40
+paul|34
+wale|40
+copper|32
+joshua|43

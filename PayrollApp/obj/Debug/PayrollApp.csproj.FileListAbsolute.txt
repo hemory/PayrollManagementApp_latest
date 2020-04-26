@@ -1,0 +1,12 @@
+C:\Users\hphifer\source\repos\PayrollApp\PayrollApp\bin\Debug\PayrollApp.exe.config
+C:\Users\hphifer\source\repos\PayrollApp\PayrollApp\bin\Debug\PayrollApp.exe
+C:\Users\hphifer\source\repos\PayrollApp\PayrollApp\bin\Debug\PayrollApp.pdb
+C:\Users\hphifer\source\repos\PayrollApp\PayrollApp\obj\Debug\PayrollApp.csproj.CoreCompileInputs.cache
+C:\Users\hphifer\source\repos\PayrollApp\PayrollApp\obj\Debug\PayrollApp.exe
+C:\Users\hphifer\source\repos\PayrollApp\PayrollApp\obj\Debug\PayrollApp.pdb
+C:\Users\hphif\source\repos\PayRollApp\PayRollApp\PayrollApp\bin\Debug\PayrollApp.exe.config
+C:\Users\hphif\source\repos\PayRollApp\PayRollApp\PayrollApp\bin\Debug\PayrollApp.exe
+C:\Users\hphif\source\repos\PayRollApp\PayRollApp\PayrollApp\bin\Debug\PayrollApp.pdb
+C:\Users\hphif\source\repos\PayRollApp\PayRollApp\PayrollApp\obj\Debug\PayrollApp.csprojAssemblyReference.cache
+C:\Users\hphif\source\repos\PayRollApp\PayRollApp\PayrollApp\obj\Debug\PayrollApp.exe
+C:\Users\hphif\source\repos\PayRollApp\PayRollApp\PayrollApp\obj\Debug\PayrollApp.pdb

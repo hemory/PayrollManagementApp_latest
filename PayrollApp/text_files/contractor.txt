@@ -1,0 +1,4 @@
+﻿joe|34
+maisel|23
+cassie|23
+bridgette|23
