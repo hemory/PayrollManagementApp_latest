@@ -7,9 +7,9 @@ namespace PayrollApp
     public class FileReaderWriter
     {
 
-        private string employeePath = @"C:\Users\hphifer\source\repos\PayrollApp\PayrollApp\text_files\employee.txt";
-        private string managerPath = @"C:\Users\hphifer\source\repos\PayrollApp\PayrollApp\text_files\manager.txt";
-        private string contractorPath = @"C:\Users\hphifer\source\repos\PayrollApp\PayrollApp\text_files\contractor.txt";
+        private string employeePath = @"C:\Users\hphifer\source\repos\PayRollApp\PayrollAppCSharp\PayrollApp\text_files\employee.txt";
+        private string managerPath = @"C:\Users\hphifer\source\repos\PayRollApp\PayrollAppCSharp\PayrollApp\text_files\manager.txt";
+        private string contractorPath = @"C:\Users\hphifer\source\repos\PayRollApp\PayrollAppCSharp\PayrollApp\Contractor.cs";
 
         public List<Employee> GetEmployeeList(string employeePath)
         {
