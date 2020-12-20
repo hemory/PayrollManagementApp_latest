@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using NUnit.Framework.Internal;
 using PayrollApp;
+using System.Collections.Generic;
 
 namespace PayRollApp.UnitTests
 {
@@ -16,29 +12,27 @@ namespace PayRollApp.UnitTests
         public void GetEmployeeListAlwaysReturnsExpectedResult()
         {
             //arrange
-            FileReaderWriter sut = new FileReaderWriter();
-         string employeePath = @"C:\Users\hphifer\source\repos\PayRollApp\PayrollAppCSharp\PayrollApp\text_files\employee.txt";
+            string employeePath = @"C:\Users\hphifer\source\repos\PayRollApp_v2\PayrollAppCSharp\PayRollApp.UnitTests\TestTextFiles\employeeTest.txt";
 
-         //act
+            //act
 
-        List<Employee> actualEmployList = sut.GetEmployeeList(employeePath);
-        bool isPopulated = actualEmployList.Count > 0;
+            List<Employee> actualEmployList = FileReaderWriter.GetEmployeeList(employeePath);
+            bool isPopulated = actualEmployList.Count > 0;
 
-        //assert
-        Assert.That(isPopulated, Is.EqualTo(true));
+            //assert
+            Assert.That(isPopulated, Is.EqualTo(true));
         }
 
         [Test]
         public void GetManagerListAlwaysReturnsExpectedResult()
         {
             //arrange
-            FileReaderWriter sut = new FileReaderWriter();
-            string managerPath = @"C:\Users\hphifer\source\repos\PayRollApp\PayrollAppCSharp\PayrollApp\text_files\manager.txt";
-        
+            string managerPath = @"C:\Users\hphifer\source\repos\PayRollApp_v2\PayrollAppCSharp\PayRollApp.UnitTests\TestTextFiles\managerTest.txt";
+
 
             //act
 
-            List<Manager> actualManagerList = sut.GetManagerList(managerPath);
+            List<Manager> actualManagerList = FileReaderWriter.GetManagerList(managerPath);
             bool isPopulated = actualManagerList.Count > 0;
 
             //assert
@@ -49,13 +43,12 @@ namespace PayRollApp.UnitTests
         public void GetContractorListAlwaysReturnsExpectedResult()
         {
             //arrange
-            FileReaderWriter sut = new FileReaderWriter();
-           
-            string contractorPath = @"C:\Users\hphifer\source\repos\PayRollApp\PayrollAppCSharp\PayrollApp\text_files\contractor.txt";
+
+            string contractorPath = @"C:\Users\hphifer\source\repos\PayRollApp_v2\PayrollAppCSharp\PayRollApp.UnitTests\TestTextFiles\contractorTest.txt";
 
             //act
 
-            List<Contractor> actualContractorList = sut.GetContractorList(contractorPath);
+            List<Contractor> actualContractorList = FileReaderWriter.GetContractorList(contractorPath);
             bool isPopulated = actualContractorList.Count > 0;
 
             //assert
@@ -66,14 +59,15 @@ namespace PayRollApp.UnitTests
         public void WriteStaffHoursToTextFile()
         {
             //arrange
-            FileReaderWriter sut = new FileReaderWriter();
-            string managerPath = @"C:\Users\hphifer\source\repos\PayRollApp\PayrollAppCSharp\PayrollApp\text_files\manager.txt";
+            string managerPath = @"C:\Users\hphifer\source\repos\PayRollApp_v2\PayrollAppCSharp\PayRollApp.UnitTests\TestTextFiles\writerTest.txt";
+
+            string contractorPath = @"C:\Users\hphifer\source\repos\PayRollApp_v2\PayrollAppCSharp\PayRollApp.UnitTests\TestTextFiles\writerTest.txt";
+
+            string employeePath = @"C:\Users\hphifer\source\repos\PayRollApp_v2\PayrollAppCSharp\PayRollApp.UnitTests\TestTextFiles\writerTest.txt";
 
             //act
-            sut.WriteStaffHoursToTextFile("m", "frijole", "40");
-           List<Manager> actualManagerList = sut.GetManagerList(managerPath);
-
-            //assert
+            FileReaderWriter.WriteStaffHoursToTextFile("m", "frijole", "40",managerPath,employeePath,contractorPath);
+            List<Manager> actualManagerList = FileReaderWriter.GetManagerList(managerPath);
 
             bool didWrite = false;
 
@@ -85,7 +79,9 @@ namespace PayRollApp.UnitTests
                 }
             }
 
-            Assert.That(didWrite, Is.EqualTo(true));
+            //assert
+
+            Assert.IsTrue(didWrite);
         }
     }
 }

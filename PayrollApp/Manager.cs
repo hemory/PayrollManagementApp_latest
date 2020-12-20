@@ -1,27 +1,53 @@
-﻿namespace PayrollApp
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.SqlServer.Server;
+
+namespace PayrollApp
 {
     public class Manager
     {
         public double HourlyRate { get; set; }
-        public double HoursWorked { get; set; }
-        public string Name { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         public double BasePay { get; set; }
         public double TotalPay { get; set; }
-        public double Allowances { get; set; }
+        public double Bonus { get; set; }
+        public List<UserTimeSheet> UserTimeSheets { get; set; }
 
-        public Manager()
+
+        public Manager(string firstName, string lastName)
         {
+            FirstName = firstName;
+            LastName = lastName;
             HourlyRate = 50.00;
-            Allowances = 100.00;
+            Bonus = 100.00;
+            UserTimeSheets = new List<UserTimeSheet>();
         }
 
         public double CalculateTotalPay()
         {
-            BasePay = HoursWorked * HourlyRate;
+            double totalHoursWorked = 0;
+            foreach (var entry in UserTimeSheets)
+            {
+                totalHoursWorked += entry.HoursWorked;
+            }
 
-            TotalPay = BasePay + Allowances;
+            BasePay = totalHoursWorked * HourlyRate;
+
+            TotalPay = BasePay + Bonus;
 
             return TotalPay;
+        }
+
+        public void ViewManagerTimeSheet()
+        {
+            foreach (var timeSheet in UserTimeSheets)
+            {
+                Console.WriteLine(
+                    $"Date: {timeSheet.DateOfWork.ToShortDateString()} Hours: {timeSheet.HoursWorked}");
+            }
+
+            Console.WriteLine($"Total take home is {CalculateTotalPay():C}");
         }
 
     }

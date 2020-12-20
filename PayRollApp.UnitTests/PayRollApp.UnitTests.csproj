@@ -63,6 +63,15 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="TestTextFiles\writerTest.txt" />
+    <Content Include="TestTextFiles\managerTest.txt" />
+    <Content Include="TestTextFiles\employeeTest.txt" />
+    <Content Include="TestTextFiles\contractorTest.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

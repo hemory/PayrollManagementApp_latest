@@ -1,116 +1,97 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace PayrollApp
 {
     public class FileReaderWriter
     {
 
-        private string employeePath = @"C:\Users\hphifer\source\repos\PayRollApp\PayrollAppCSharp\PayrollApp\text_files\employee.txt";
-        private string managerPath = @"C:\Users\hphifer\source\repos\PayRollApp\PayrollAppCSharp\PayrollApp\text_files\manager.txt";
-        private string contractorPath = @"C:\Users\hphifer\source\repos\PayRollApp\PayrollAppCSharp\PayrollApp\Contractor.cs";
+        private static readonly string EmployeeRepoPath = Path.Combine(Directory.GetCurrentDirectory(), "employee_repo");
+        private static readonly string ContractorRepoPath = Path.Combine(Directory.GetCurrentDirectory(), "contractor_repo");
+        private static readonly string ManagerRepoPath = Path.Combine(Directory.GetCurrentDirectory(), "manager_repo");
 
-        public List<Employee> GetEmployeeList(string employeePath)
+        public static void CreateNewUser(string fullUserPath, string staffHours)
         {
-            string[] lines = File.ReadAllLines(employeePath);
-            List<Employee> employeeList = new List<Employee>();
+            string dateOfEntry = DateTime.Now.ToShortDateString();
 
-
-            foreach (string line in lines)
+            using (StreamWriter sw = File.AppendText(fullUserPath))
             {
-                if (!string.IsNullOrEmpty(line))
-                {
-                    Employee employee = new Employee();
-
-                    var staffArray = line.Split('|');
-                    employee.Name = staffArray[0];
-                    employee.HoursWorked = Convert.ToDouble(staffArray[1]);
-
-                    employeeList.Add(employee);
-                }
+                sw.WriteLine($"{dateOfEntry}|{staffHours}");
             }
-
-            return employeeList;
         }
 
-        public List<Manager> GetManagerList(string managerPath)
+        public static void WriteToUserFile(string fullUserPath, string staffHours)
         {
-            string[] lines = File.ReadAllLines(managerPath);
-            List<Manager> managerList = new List<Manager>();
+            string dateOfEntry = DateTime.Now.ToShortDateString();
 
-
-            foreach (string line in lines)
+            using (StreamWriter sw = File.AppendText(fullUserPath))
             {
-                if (!string.IsNullOrEmpty(line))
-                {
-                    Manager manager = new Manager();
-
-                    var staffArray = line.Split('|');
-                    manager.Name = staffArray[0];
-                    manager.HoursWorked = Convert.ToDouble(staffArray[1]);
-
-                    managerList.Add(manager);
-                }
+                sw.WriteLine($"{dateOfEntry}|{staffHours}");
             }
-
-            return managerList;
         }
 
-        public List<Contractor> GetContractorList(string contractorPath)
+        public static List<UserTimeSheet> GetTimeSheetData(string firstName, string lastName, string path)
         {
-            string[] lines = File.ReadAllLines(contractorPath);
-            List<Contractor> contractEmployees = new List<Contractor>();
+            List<UserTimeSheet> userTimeSheetData = new List<UserTimeSheet>();
 
+            string[] lines = File.ReadAllLines(path);
 
-            foreach (string line in lines)
+            foreach (var line in lines)
             {
-                if (!string.IsNullOrEmpty(line))
-                {
-                    Contractor contractor = new Contractor();
+                UserTimeSheet timeSheetEntry = new UserTimeSheet();
 
-                    var staffArray = line.Split('|');
-                    contractor.Name = staffArray[0];
-                    contractor.HoursWorked = Convert.ToDouble(staffArray[1]);
+                string[] userTimeSheetArray = line.Split('|');
 
-                    contractEmployees.Add(contractor);
-                }
+                timeSheetEntry.DateOfWork = Convert.ToDateTime(userTimeSheetArray[0]);
+                timeSheetEntry.HoursWorked = Convert.ToDouble(userTimeSheetArray[1]);
+
+                userTimeSheetData.Add(timeSheetEntry);
             }
 
-            return contractEmployees;
+            return userTimeSheetData;
         }
 
-
-
-        public void WriteStaffHoursToTextFile(string staffChoice, string staffName, string staffHours)
+        public static bool CheckIfUserExistsInRepo(string firstName, string lastName, string repoPath,
+            out string fullUserPath)
         {
 
-            string path = "";
-            if (staffChoice == "m")
+            string pathToCheckFor =
+                $@"{repoPath}\{firstName}{lastName}.txt";
+
+            var filePaths = Directory.GetFiles(repoPath);
+
+            fullUserPath = pathToCheckFor;
+
+            if (filePaths.Contains(pathToCheckFor))
             {
-                path = managerPath;
+                return true;
             }
 
-            if (staffChoice == "e")
-            {
-                path = employeePath;
-            }
-
-            if (staffChoice == "c")
-            {
-                path = contractorPath;
-            }
-
-
-            using (StreamWriter writer = File.AppendText(path))
-            {
-                writer.WriteLine($"{staffName}|{staffHours}");
-            }
-
-
-            Console.WriteLine($"Adding complete... {Environment.NewLine}");
+            return false;
         }
 
+        public static string AssignWorkingPath(string roleChoice)
+        {
+            string workingPath = "";
 
+            if (roleChoice == "m")
+            {
+                workingPath = ManagerRepoPath;
+            }
+
+            if (roleChoice == "e")
+            {
+                workingPath = EmployeeRepoPath;
+            }
+
+            if (roleChoice == "c")
+            {
+                workingPath = ContractorRepoPath;
+            }
+
+            return workingPath;
+        }
     }
 }

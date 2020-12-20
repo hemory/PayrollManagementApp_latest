@@ -1,41 +1,78 @@
-﻿namespace PayrollApp
+﻿using System;
+using System.Collections.Generic;
+
+namespace PayrollApp
 {
     public class Contractor
     {
         public double HourlyRate { get; set; }
-        public double HoursWorked { get; set; }
-        public string Name { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         public double BasePay { get; set; }
         public double TotalPay { get; set; }
         public double OvertimeRate { get; set; }
-        public double OvertimeHours { get; set; }
+        public List<UserTimeSheet> UserTimeSheets { get; set; }
 
-        public Contractor()
+        public Contractor(string firstName, string lastName)
         {
+            FirstName = firstName;
+            LastName = lastName;
             HourlyRate = 30;
+            UserTimeSheets = new List<UserTimeSheet>();
+
         }
 
         public double CalculateTotalPay()
         {
-            BasePay = HoursWorked * HourlyRate;
-            TotalPay = BasePay + CalculateOvertimeRate();
+            List<double> totalForEachEntryList = new List<double>();
 
-            return TotalPay;
+            foreach (var entry in UserTimeSheets)
+            {
+                double hoursOver40 = entry.HoursWorked - 40;
+
+                if (hoursOver40 < 0)
+                {
+                    hoursOver40 = 0;
+                }
+
+                BasePay = (entry.HoursWorked - hoursOver40) * HourlyRate;
+                TotalPay = BasePay + CalculateOvertimeRate(hoursOver40);
+                totalForEachEntryList.Add(TotalPay);
+            }
+
+            double timeSheetTotal = 0;
+
+
+            foreach (var total in totalForEachEntryList)
+            {
+                timeSheetTotal += total;
+
+            }
+
+
+            return timeSheetTotal;
         }
 
         //Private because its only used in class
-        private double CalculateOvertimeRate()
+        private double CalculateOvertimeRate(double hoursOver40)
         {
-            double overTimeTotal = 0;
-            OvertimeRate = 30 * 1.5; 
-            if (HoursWorked > 40)
-            {
-                OvertimeHours = HoursWorked - 40;
-                overTimeTotal = OvertimeHours * OvertimeRate;
-            }
+            OvertimeRate = 30 * 1.5;
+
+            double overTimeTotal = hoursOver40 * OvertimeRate;
+
 
             return overTimeTotal;
         }
 
+        public void ViewContractorTimeSheet()
+        {
+            foreach (var entry in UserTimeSheets)
+            {
+                Console.WriteLine(
+                    $"Date: {entry.DateOfWork.ToShortDateString()} Hours: {entry.HoursWorked}");
+            }
+
+            Console.WriteLine($"Total take home is {CalculateTotalPay():C}");
+        }
     }
 }

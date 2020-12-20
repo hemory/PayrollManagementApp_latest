@@ -20,7 +20,7 @@ namespace PayRollApp.UnitTests
             {
                 HourlyRate = 50,
                 HoursWorked = 40,
-                Allowances = 100
+                Bonus = 100
             };
 
             //act

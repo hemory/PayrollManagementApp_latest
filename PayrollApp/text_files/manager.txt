@@ -1,4 +1,0 @@
-﻿joe|45
-cap|56
-bj|45
-frijole|40
