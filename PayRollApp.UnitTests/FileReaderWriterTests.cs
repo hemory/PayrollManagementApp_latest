@@ -1,7 +1,9 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
 using NUnit.Framework.Internal;
 using PayrollApp;
 using System.Collections.Generic;
+using System.IO;
 
 namespace PayRollApp.UnitTests
 {
@@ -9,79 +11,70 @@ namespace PayRollApp.UnitTests
     class FileReaderWriterTests
     {
         [Test]
-        public void GetEmployeeListAlwaysReturnsExpectedResult()
+        public void CreateNewUserAddsNewTextFile()
         {
             //arrange
-            string employeePath = @"C:\Users\hphifer\source\repos\PayRollApp_v2\PayrollAppCSharp\PayRollApp.UnitTests\TestTextFiles\employeeTest.txt";
+            string userPath = @"C:\Users\hphifer\source\repos\PayRollApp_v2\PayRollApp_v2\PayrollAppCSharp\PayRollApp.UnitTests\TestTextFiles\johndoe.txt";
 
             //act
 
-            List<Employee> actualEmployList = FileReaderWriter.GetEmployeeList(employeePath);
-            bool isPopulated = actualEmployList.Count > 0;
+           FileReaderWriter.CreateNewUser(userPath,"40");
 
             //assert
-            Assert.That(isPopulated, Is.EqualTo(true));
+            Assert.AreEqual(File.Exists(userPath), true);
+
+            //Cleans up file
+            File.Delete(userPath);
         }
 
         [Test]
-        public void GetManagerListAlwaysReturnsExpectedResult()
+        public void WriteToUserFileAddsEntryToTextFile()
         {
             //arrange
-            string managerPath = @"C:\Users\hphifer\source\repos\PayRollApp_v2\PayrollAppCSharp\PayRollApp.UnitTests\TestTextFiles\managerTest.txt";
-
+            string userPath = @"C:\Users\hphifer\source\repos\PayRollApp_v2\PayRollApp_v2\PayrollAppCSharp\PayRollApp.UnitTests\TestTextFiles\janedoe.txt";
 
             //act
 
-            List<Manager> actualManagerList = FileReaderWriter.GetManagerList(managerPath);
-            bool isPopulated = actualManagerList.Count > 0;
+            FileReaderWriter.WriteToUserFile(userPath,"40");
+           string[] actual = File.ReadAllLines(userPath);
 
             //assert
-            Assert.That(isPopulated, Is.EqualTo(true));
+            Assert.AreEqual(actual[actual.Length-1],$"{DateTime.Now.ToShortDateString()}|40");
+
         }
 
         [Test]
-        public void GetContractorListAlwaysReturnsExpectedResult()
+        public void GetTimeSheetDataReturnsTimeSheetData()
         {
             //arrange
-
-            string contractorPath = @"C:\Users\hphifer\source\repos\PayRollApp_v2\PayrollAppCSharp\PayRollApp.UnitTests\TestTextFiles\contractorTest.txt";
+            string userPath = @"C:\Users\hphifer\source\repos\PayRollApp_v2\PayRollApp_v2\PayrollAppCSharp\PayRollApp.UnitTests\TestTextFiles\timesheetdata.txt";
 
             //act
 
-            List<Contractor> actualContractorList = FileReaderWriter.GetContractorList(contractorPath);
-            bool isPopulated = actualContractorList.Count > 0;
+          List<UserTimeSheet> actualData = FileReaderWriter.GetTimeSheetData(userPath);
 
             //assert
-            Assert.That(isPopulated, Is.EqualTo(true));
+            Assert.AreEqual(actualData[0].HoursWorked, 40);
+            Assert.AreEqual(actualData[0].DateOfWork.ToShortDateString(), "12/21/2020");
         }
 
         [Test]
-        public void WriteStaffHoursToTextFile()
+        public void UpdateUserRepoPathReturnsUpdatedPath()
         {
             //arrange
-            string managerPath = @"C:\Users\hphifer\source\repos\PayRollApp_v2\PayrollAppCSharp\PayRollApp.UnitTests\TestTextFiles\writerTest.txt";
-
-            string contractorPath = @"C:\Users\hphifer\source\repos\PayRollApp_v2\PayrollAppCSharp\PayRollApp.UnitTests\TestTextFiles\writerTest.txt";
-
-            string employeePath = @"C:\Users\hphifer\source\repos\PayRollApp_v2\PayrollAppCSharp\PayRollApp.UnitTests\TestTextFiles\writerTest.txt";
+            string userPath = @"C:\Users\hphifer\source\repos\PayRollApp_v2\PayRollApp_v2\PayrollAppCSharp\PayRollApp.UnitTests\TestTextFiles";
 
             //act
-            FileReaderWriter.WriteStaffHoursToTextFile("m", "frijole", "40",managerPath,employeePath,contractorPath);
-            List<Manager> actualManagerList = FileReaderWriter.GetManagerList(managerPath);
 
-            bool didWrite = false;
-
-            foreach (var manager in actualManagerList)
-            {
-                if (manager.Name == "frijole" && manager.HoursWorked == 40)
-                {
-                    didWrite = true;
-                }
-            }
+            string actual = FileReaderWriter.UpdateUserRepoPath("janet", "doe", userPath);
 
             //assert
-
-            Assert.IsTrue(didWrite);
+            Assert.AreEqual(actual, @"C:\Users\hphifer\source\repos\PayRollApp_v2\PayRollApp_v2\PayrollAppCSharp\PayRollApp.UnitTests\TestTextFiles\janetdoe.txt");
+            
         }
+
+        //todo test for AssignWorkingPath
+        //todo test for CheckIfUserExistsInRepo
+
     }
 }

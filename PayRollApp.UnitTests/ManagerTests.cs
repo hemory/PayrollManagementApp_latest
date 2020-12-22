@@ -13,21 +13,32 @@ namespace PayRollApp.UnitTests
     class ManagerTests
     {
         [Test]
-        public void CalculateTotalPayAlwaysReturnsExpectedResult()
+        public void CalculateTotalPayAlwaysReturnsCorrectTotalPay()
         {
             //arrange
-            Manager sut = new Manager
+            UserTimeSheet entry1 = new UserTimeSheet
             {
-                HourlyRate = 50,
-                HoursWorked = 40,
-                Bonus = 100
+                DateOfWork = DateTime.Now,
+                HoursWorked = 40
+
             };
 
+            UserTimeSheet entry2 = new UserTimeSheet
+            {
+                DateOfWork = DateTime.Now,
+                HoursWorked = 45
+
+            };
+
+            Manager sut = new Manager("john", "doe");
+            sut.UserTimeSheets.Add(entry1);
+            sut.UserTimeSheets.Add(entry2);
+
             //act
-            double answer = sut.CalculateTotalPay();
+            double actual = sut.CalculateTotalPay();
 
             //assert
-            Assert.That(answer, Is.EqualTo(2100));
+            Assert.AreEqual(4350, actual);
         }
     }
 }

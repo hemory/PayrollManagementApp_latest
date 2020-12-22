@@ -5,12 +5,12 @@ namespace PayrollApp
 {
     public class Contractor
     {
-        public double HourlyRate { get; set; }
+        public double HourlyRate { get;}
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public double BasePay { get; set; }
-        public double TotalPay { get; set; }
-        public double OvertimeRate { get; set; }
+        public double TotalPay { get; private set; }
+        public double OvertimeRate { get; private set; }
         public List<UserTimeSheet> UserTimeSheets { get; set; }
 
         public Contractor(string firstName, string lastName)
@@ -66,12 +66,13 @@ namespace PayrollApp
 
         public void ViewContractorTimeSheet()
         {
+            Console.WriteLine("---Timesheet---".PadLeft(20).PadRight(20));
             foreach (var entry in UserTimeSheets)
             {
                 Console.WriteLine(
                     $"Date: {entry.DateOfWork.ToShortDateString()} Hours: {entry.HoursWorked}");
             }
-
+            Console.WriteLine("---------------".PadLeft(20).PadRight(20));
             Console.WriteLine($"Total take home is {CalculateTotalPay():C}");
         }
     }

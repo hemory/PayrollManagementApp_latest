@@ -13,20 +13,25 @@ namespace PayRollApp.UnitTests
     class EmployeeTests
     {
         [Test]
-        public void CalculateTotalPayAlwaysReturnsExpectedResult()
+        public void CalculateTotalPayAlwaysReturnsCorrectTotalPay()
         {
             //arrange
-          Employee sut = new Employee
-          {
-              HourlyRate = 20.75,
-              HoursWorked = 40
-          };
+            UserTimeSheet entry1 = new UserTimeSheet
+            {
+                DateOfWork = DateTime.Now,
+                HoursWorked = 40
+
+            };
+
+            Employee sut = new Employee("john", "doe");
+            sut.UserTimeSheets.Add(entry1);
 
             //act
-            double answer = sut.CalculateTotalPay();
+            double actual = sut.CalculateTotalPay();
 
             //assert
-            Assert.That(answer, Is.EqualTo(830));
+            Assert.AreEqual(830, actual);
         }
+
     }
 }

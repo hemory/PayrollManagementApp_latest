@@ -13,40 +13,35 @@ namespace PayRollApp.UnitTests
     class ContractorTests
     {
         [Test]
-        public void CalculateTotalPayAlwaysReturnsTotalPay()
+        public void CalculateTotalPayAlwaysReturnsCorrectTotalPay()
         {
             //arrange
-            Contractor sut = new Contractor
+            UserTimeSheet entry1 = new UserTimeSheet
             {
-                HoursWorked = 40,
-                HourlyRate = 30
+                DateOfWork = DateTime.Now,
+                HoursWorked = 40
+                
             };
 
-
-            //act
-            double answer = sut.CalculateTotalPay();
-
-            //assert
-            Assert.That(answer,Is.EqualTo(1200));
-        }
-
-        [Test]
-        public void CalculateTotalPayAlwaysReturnsTotalPayWithOverTime()
-        {
-            //arrange
-            Contractor sut = new Contractor
+            UserTimeSheet entry2 = new UserTimeSheet
             {
-                HoursWorked = 45,
-                HourlyRate = 30
+                DateOfWork = DateTime.Now,
+                HoursWorked = 45
+
             };
 
+            Contractor sut = new Contractor("john", "doe");
+            sut.UserTimeSheets.Add(entry1);
+            sut.UserTimeSheets.Add(entry2);
 
             //act
-            double answer = sut.CalculateTotalPay();
+            double actual = sut.CalculateTotalPay();
 
             //assert
-            Assert.That(answer, Is.EqualTo(1575));
+            Assert.AreEqual(2625,actual);
         }
+
+      
 
     }
 }

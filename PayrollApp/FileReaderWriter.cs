@@ -32,7 +32,7 @@ namespace PayrollApp
             }
         }
 
-        public static List<UserTimeSheet> GetTimeSheetData(string firstName, string lastName, string path)
+        public static List<UserTimeSheet> GetTimeSheetData(string path)
         {
             List<UserTimeSheet> userTimeSheetData = new List<UserTimeSheet>();
 
@@ -70,6 +70,11 @@ namespace PayrollApp
             }
 
             return false;
+        }
+
+        public static string UpdateUserRepoPath(string firstName, string lastName, string repoPath)
+        {
+            return $@"{repoPath}\{firstName}{lastName}.txt";
         }
 
         public static string AssignWorkingPath(string roleChoice)

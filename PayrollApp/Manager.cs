@@ -41,12 +41,13 @@ namespace PayrollApp
 
         public void ViewManagerTimeSheet()
         {
+            Console.WriteLine("---Timesheet---".PadLeft(20).PadRight(20));
             foreach (var timeSheet in UserTimeSheets)
             {
                 Console.WriteLine(
                     $"Date: {timeSheet.DateOfWork.ToShortDateString()} Hours: {timeSheet.HoursWorked}");
             }
-
+            Console.WriteLine("---------------".PadLeft(20).PadRight(20));
             Console.WriteLine($"Total take home is {CalculateTotalPay():C}");
         }
 

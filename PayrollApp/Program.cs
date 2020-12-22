@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+using System.Threading;
 
 namespace PayrollApp
 {
@@ -9,377 +7,477 @@ namespace PayrollApp
     {
         static void Main(string[] args)
         {
-           
+
 
 
             Console.WriteLine("Welcome to the Pay Roll App");
-            //Thread.Sleep(1000);
+            ClearTimer(1000);
 
             Console.Write("Enter First Name: ");
             string firstName = Console.ReadLine().ToLower().Trim();
 
+            while (string.IsNullOrEmpty(firstName))
+            {
+                Console.Write("Input can't be empty! Enter your input once more: ");
+                firstName = Console.ReadLine().ToLower().Trim();
+            }
+
             Console.Write("Enter Last Name: ");
             string lastName = Console.ReadLine().ToLower().Trim();
 
-            Console.WriteLine("Are you a [M]anager [E]mployee [C]ontractor ?");
+            while (string.IsNullOrEmpty(lastName))
+            {
+                Console.Write("Input can't be empty! Enter your input once more: ");
+                lastName = Console.ReadLine().ToLower().Trim();
+            }
+
+            //Main Menu
+
+            Console.Write("Are you a [M]anager [E]mployee [C]ontractor: ");
             string roleChoice = Console.ReadLine().Trim();
+
+            bool notValidChoice = roleChoice != "m" && roleChoice != "e" && roleChoice != "c";
+
+            while (string.IsNullOrEmpty(roleChoice) || notValidChoice )
+            {
+                Console.Write("Input must be a choice of m, e, or c. Input must not be empty: ");
+                roleChoice = Console.ReadLine().ToLower().Trim();
+                notValidChoice = roleChoice != "m" && roleChoice != "e" && roleChoice != "c";
+            }
 
             string workingPath = FileReaderWriter.AssignWorkingPath(roleChoice);
 
             bool userExists = FileReaderWriter.CheckIfUserExistsInRepo(firstName, lastName, workingPath, out string fullUserPath);
 
 
-            //manager flow
-            if (roleChoice == "m")
-            {
+            ClearTimer(1000);
 
-                if (userExists)
+          
+                //manager flow
+                if (roleChoice == "m")
                 {
-                    while (true)
+
+                    if (userExists)
                     {
-                        Manager manager = new Manager(firstName, lastName)
+                        while (true)
                         {
-                            UserTimeSheets = FileReaderWriter.GetTimeSheetData(firstName, lastName, fullUserPath)
-                        };
+                            Manager manager = new Manager(firstName, lastName)
+                            {
+                                UserTimeSheets = FileReaderWriter.GetTimeSheetData(fullUserPath)
+                            };
 
 
-                        Console.WriteLine("[1]View Time sheet [2]Add Entry [3] View Staff Time Sheets");
-                        string userChoice = Console.ReadLine();
+                            Console.Write("[1]View Time sheet [2]Add Entry [3] View Staff Time Sheets: ");
+                            string userChoice = Console.ReadLine();
 
-                        switch (userChoice)
-                        {
-                            case "1":
+                            ClearTimer(1000);
 
-                               manager.ViewManagerTimeSheet();
+                            switch (userChoice)
+                            {
+                                case "1":
 
-                                break;
+                                    manager.ViewManagerTimeSheet();
 
-                            case "2":
+                                    break;
+
+                                case "2":
 
 
-                                Console.Write("Enter Hours: ");
-                                string staffHours = Console.ReadLine().ToLower().Trim();
+                                    Console.Write("Enter Hours: ");
+                                    string staffHours = Console.ReadLine().ToLower().Trim();
+
+                                    while (string.IsNullOrEmpty(staffHours))
+                                    {
+                                        Console.Write("Input can't be empty! Enter your input once more: ");
+                                        staffHours = Console.ReadLine().ToLower().Trim();
+                                    }
 
                                 FileReaderWriter.WriteToUserFile(fullUserPath, staffHours);
 
-                                break;
+                                    break;
 
-                            case "3":
+                                case "3":
 
-                                Console.WriteLine("View [E]mployee [C]ontractor");
-                                string managerViewChoice = Console.ReadLine().ToLower().Trim();
+                                    Console.Write("View [E]mployee [C]ontractor: ");
+                                    string managerViewChoice = Console.ReadLine().ToLower().Trim();
+                                    ClearTimer(1000);
+                                    Console.Write("First Name: ");
+                                    firstName = Console.ReadLine().ToLower().Trim();
 
-                                Console.WriteLine("First Name");
-                                firstName = Console.ReadLine().ToLower().Trim();
+                                    Console.Write("Last Name: ");
+                                    lastName = Console.ReadLine().ToLower().Trim();
 
-                                Console.WriteLine("Last Name");
-                                lastName = Console.ReadLine().ToLower().Trim();
+                                    ClearTimer(1000);
+                                    workingPath = FileReaderWriter.AssignWorkingPath(managerViewChoice);
 
-
-                                workingPath = FileReaderWriter.AssignWorkingPath(managerViewChoice);
-
-                                userExists = FileReaderWriter.CheckIfUserExistsInRepo(firstName, lastName, workingPath, out string fullPath);
+                                    userExists = FileReaderWriter.CheckIfUserExistsInRepo(firstName, lastName, workingPath, out string fullPath);
 
 
-                                if (userExists)
-                                {
-                                    if (managerViewChoice == "e")
+                                    if (userExists)
                                     {
-                                        Employee employee = new Employee(firstName, lastName)
+                                        if (managerViewChoice == "e")
                                         {
-                                            UserTimeSheets = FileReaderWriter.GetTimeSheetData(firstName, lastName, fullPath)
-                                        };
+                                            Employee employee = new Employee(firstName, lastName)
+                                            {
+                                                UserTimeSheets = FileReaderWriter.GetTimeSheetData(fullPath)
+                                            };
 
-                                        employee.ViewEmployeeTimeSheet();
+                                            employee.ViewEmployeeTimeSheet();
+                                        }
+
+                                        if (managerViewChoice == "c")
+                                        {
+                                            Contractor contractor = new Contractor(firstName, lastName)
+                                            {
+                                                UserTimeSheets = FileReaderWriter.GetTimeSheetData(fullPath)
+                                            };
+
+
+                                            contractor.ViewContractorTimeSheet();
+                                        }
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("No data found...");
                                     }
 
-                                    if (managerViewChoice == "c")
-                                    {
-                                        Contractor contractor = new Contractor(firstName, lastName)
-                                        {
-                                            UserTimeSheets = FileReaderWriter.GetTimeSheetData(firstName, lastName, fullPath)
-                                        };
+                                    break;
 
+                                default:
+                                    Console.WriteLine("Please make a valid entry.");
+                                    continue;
 
-                                        contractor.ViewContractorTimeSheet();
-                                    }
-                                }
-                                else
-                                {
-                                    Console.WriteLine("No data found...");
-                                }
+                            }
 
+                            ClearTimer(2000);
+
+                            Console.Write("Return to menu? [y] or any other key to exit: ");
+                            string returnToMainMenu = Console.ReadLine().ToLower().Trim();
+
+                            if (returnToMainMenu != "y")
+                            {
                                 break;
-
-                            default:
-                                Console.WriteLine("Please make a valid entry.");
-                                break;
-
-                        }
-
-                        Console.WriteLine("Return to menu? [y] or [n]");
-                        string returnToMainMenu = Console.ReadLine().ToLower().Trim();
-
-                        if (returnToMainMenu != "y")
-                        {
-                            break;
+                            }
                         }
                     }
-                }
-                else
-                {
-                    Console.WriteLine("No record is found... Would you like to create a profile? [y] or [n]");
-                    string choiceToCreateAProfile = Console.ReadLine().Trim().ToLower();
-
-                    if (choiceToCreateAProfile == "y")
+                    else
                     {
-                        Console.WriteLine(
-                            $"Please confirm that your first name is {firstName.ToUpper()} and your last name is {lastName.ToUpper()}");
-                        Console.Write("Confirm (y)es or (n): ");
-                        string confirmName = Console.ReadLine().ToLower().Trim();
+                        Console.Write("No record is found... Would you like to create a profile? [y] or any other key to exit: ");
+                        string choiceToCreateAProfile = Console.ReadLine().Trim().ToLower();
 
-                        if (confirmName == "n")
+                        ClearTimer(1000);
+
+                        if (choiceToCreateAProfile == "y")
                         {
-                            Console.Clear();
-                            Console.Write("Enter your first name: ");
-                            firstName = Console.ReadLine().ToLower().Trim();
+                            Console.Write(
+                                $"Please confirm that your first name is {firstName.ToUpper()} and your last name is {lastName.ToUpper()}: ");
+                            Console.Write("Hit any key to confirm or (n) to update info: ");
+                            string confirmName = Console.ReadLine().ToLower().Trim();
 
-                            while (string.IsNullOrEmpty(firstName))
+                            ClearTimer(1000);
+
+                            if (confirmName == "n")
                             {
-                                Console.WriteLine("Input can't be empty! Enter your input once more");
+                                Console.Clear();
+                                Console.Write("Enter your first name: ");
                                 firstName = Console.ReadLine().ToLower().Trim();
-                            }
 
-                            Console.Write("Enter your last name: ");
-                            lastName = Console.ReadLine().ToLower().Trim();
+                                while (string.IsNullOrEmpty(firstName))
+                                {
+                                    Console.Write("Input can't be empty! Enter your input once more: ");
+                                    firstName = Console.ReadLine().ToLower().Trim();
+                                }
 
-                            while (string.IsNullOrEmpty(lastName))
-                            {
-                                Console.WriteLine("Input can't be empty! Enter your input once more");
+                                Console.Write("Enter your last name: ");
                                 lastName = Console.ReadLine().ToLower().Trim();
+
+                                while (string.IsNullOrEmpty(lastName))
+                                {
+                                    Console.Write("Input can't be empty! Enter your input once more: ");
+                                    lastName = Console.ReadLine().ToLower().Trim();
+                                }
+
+                                fullUserPath = FileReaderWriter.UpdateUserRepoPath(firstName, lastName, workingPath);
+
+
+                                ClearTimer(1000);
                             }
-                        }
-                        else
-                        {
+
                             Console.WriteLine("Great, lets add your first time sheet entry.");
+                            ClearTimer(1000);
 
                             Console.Write("Enter Hours: ");
                             string staffHours = Console.ReadLine().ToLower().Trim();
 
+                            while (string.IsNullOrEmpty(staffHours))
+                            {
+                                Console.Write("Input can't be empty! Enter your input once more: ");
+                                staffHours = Console.ReadLine().ToLower().Trim();
+                            }
+
+                        ClearTimer(1000);
                             FileReaderWriter.CreateNewUser(fullUserPath, staffHours);
 
                             Console.WriteLine("Thank you for your entry, please log back in to get user features.");
+
                         }
+
                     }
-
                 }
-            }
 
 
-            //employee flow
-            if (roleChoice == "e")
-            {
-
-                if (userExists)
+                //employee flow
+                if (roleChoice == "e")
                 {
-                    while (true)
+
+                    if (userExists)
                     {
-                        Employee employee = new Employee(firstName, lastName)
+                        while (true)
                         {
-                            UserTimeSheets = FileReaderWriter.GetTimeSheetData(firstName, lastName, fullUserPath)
-                        };
+                            Employee employee = new Employee(firstName, lastName)
+                            {
+                                UserTimeSheets = FileReaderWriter.GetTimeSheetData(fullUserPath)
+                            };
 
 
-                        Console.WriteLine("[1]View Time sheet [2]Add Entry");
-                        string userChoice = Console.ReadLine();
+                            Console.Write("[1]View Time sheet [2]Add Entry: ");
+                            string userChoice = Console.ReadLine();
 
-                        switch (userChoice)
-                        {
-                            case "1":
+                            ClearTimer(1000);
+                            switch (userChoice)
+                            {
+                                case "1":
 
-                                employee.ViewEmployeeTimeSheet();
+                                    employee.ViewEmployeeTimeSheet();
 
-                                break;
+                                    break;
 
-                            case "2":
+                                case "2":
 
-                                Console.Write("Enter Hours: ");
-                                string staffHours = Console.ReadLine().ToLower().Trim();
+                                    Console.Write("Enter Hours: ");
+                                    string staffHours = Console.ReadLine().ToLower().Trim();
+
+                                    while (string.IsNullOrEmpty(staffHours))
+                                    {
+                                        Console.Write("Input can't be empty! Enter your input once more: ");
+                                        staffHours = Console.ReadLine().ToLower().Trim();
+                                    }
 
                                 FileReaderWriter.WriteToUserFile(fullUserPath, staffHours);
 
-                                break;
+                                    break;
 
-                            default:
-                                Console.WriteLine("Please make a valid entry.");
-                                break;
-                        }
+                                default:
+                                    Console.WriteLine("Please make a valid entry.");
+                                    continue;
+                            }
+                            ClearTimer(2000);
 
-                        Console.WriteLine("Return to menu? [y] or [n]");
+
+                        Console.Write("Return to menu? [y] or any other key to exit: ");
                         string returnToMainMenu = Console.ReadLine().ToLower().Trim();
 
-                        if (returnToMainMenu != "y")
-                        {
-                            break;
+                            if (returnToMainMenu != "y")
+                            {
+                                break;
+                            }
+
                         }
+
+
 
                     }
-
-
-
-                }
-                else
-                {
-                    Console.WriteLine("No record is found... Would you like to create a profile? [y] or [n]");
-                    string choiceToCreateAProfile = Console.ReadLine().Trim().ToLower();
-
-                    if (choiceToCreateAProfile == "y")
+                    else
                     {
-                        Console.WriteLine(
-                            $"Please confirm that your first name is {firstName.ToUpper()} and your last name is {lastName.ToUpper()}");
-                        Console.Write("Confirm (y)es or (n): ");
+                    Console.Write("No record is found... Would you like to create a profile? [y] or any other key to exit: ");
+                    string choiceToCreateAProfile = Console.ReadLine().Trim().ToLower();
+                        ClearTimer(1000);
+                        if (choiceToCreateAProfile == "y")
+                        {
+                            Console.Write(
+                                $"Please confirm that your first name is {firstName.ToUpper()} and your last name is {lastName.ToUpper()}: ");
+
+                        Console.Write("Hit any key to confirm or (n) to update info: ");
+
                         string confirmName = Console.ReadLine().ToLower().Trim();
-
-                        if (confirmName == "n")
-                        {
-                            Console.Clear();
-                            Console.Write("Enter your first name: ");
-                            firstName = Console.ReadLine().ToLower().Trim();
-
-                            while (string.IsNullOrEmpty(firstName))
+                            ClearTimer(1000);
+                            if (confirmName == "n")
                             {
-                                Console.WriteLine("Input can't be empty! Enter your input once more");
+                                Console.Clear();
+                                Console.Write("Enter your first name: ");
                                 firstName = Console.ReadLine().ToLower().Trim();
-                            }
 
-                            Console.Write("Enter your last name: ");
-                            lastName = Console.ReadLine().ToLower().Trim();
+                                while (string.IsNullOrEmpty(firstName))
+                                {
+                                    Console.Write("Input can't be empty! Enter your input once more: ");
+                                    firstName = Console.ReadLine().ToLower().Trim();
+                                }
 
-                            while (string.IsNullOrEmpty(lastName))
-                            {
-                                Console.WriteLine("Input can't be empty! Enter your input once more");
+                                Console.Write("Enter your last name: ");
                                 lastName = Console.ReadLine().ToLower().Trim();
-                            }
-                        }
-                        else
-                        {
-                            Console.WriteLine("Great, lets add your first time sheet entry.");
 
+                                while (string.IsNullOrEmpty(lastName))
+                                {
+                                    Console.Write("Input can't be empty! Enter your input once more: ");
+                                    lastName = Console.ReadLine().ToLower().Trim();
+                                }
+
+                                fullUserPath = FileReaderWriter.UpdateUserRepoPath(firstName, lastName, workingPath);
+
+                                ClearTimer(1000);
+                            }
+
+                            Console.WriteLine("Great, lets add your first time sheet entry.");
+                            ClearTimer(1000);
                             Console.Write("Enter Hours: ");
                             string staffHours = Console.ReadLine().ToLower().Trim();
 
+                            while (string.IsNullOrEmpty(staffHours))
+                            {
+                                Console.Write("Input can't be empty! Enter your input once more: ");
+                                staffHours = Console.ReadLine().ToLower().Trim();
+                            }
+
+                        ClearTimer(1000);
                             FileReaderWriter.WriteToUserFile(fullUserPath, staffHours);
 
                             Console.WriteLine("Thank you for your entry, please log back in to get user features.");
+
                         }
+
                     }
-
                 }
-            }
 
-            //contractor flow
-            if (roleChoice == "c")
-            {
-                if (userExists)
+                //contractor flow
+                if (roleChoice == "c")
                 {
-                    while (true)
+                    if (userExists)
                     {
-                        Contractor contractor = new Contractor(firstName, lastName)
+                        while (true)
                         {
-                            UserTimeSheets = FileReaderWriter.GetTimeSheetData(firstName, lastName, fullUserPath)
-                        };
+                            Contractor contractor = new Contractor(firstName, lastName)
+                            {
+                                UserTimeSheets = FileReaderWriter.GetTimeSheetData(fullUserPath)
+                            };
 
 
 
-                        Console.WriteLine("[1]View Time sheet [2]Add Entry");
-                        string userChoice = Console.ReadLine();
+                            Console.Write("[1]View Time sheet [2]Add Entry: ");
+                            string userChoice = Console.ReadLine();
 
-                        switch (userChoice)
-                        {
-                            case "1":
+                            ClearTimer(1000);
+                            switch (userChoice)
+                            {
+                                case "1":
 
-                                contractor.ViewContractorTimeSheet();
+                                    contractor.ViewContractorTimeSheet();
 
-                                break;
+                                    break;
 
-                            case "2":
+                                case "2":
 
 
-                                Console.Write("Enter Hours: ");
-                                string staffHours = Console.ReadLine().ToLower().Trim();
+                                    Console.Write("Enter Hours: ");
+                                    string staffHours = Console.ReadLine().ToLower().Trim();
+
+                                    while (string.IsNullOrEmpty(staffHours))
+                                    {
+                                        Console.Write("Input can't be empty! Enter your input once more: ");
+                                        staffHours = Console.ReadLine().ToLower().Trim();
+                                    }
 
                                 FileReaderWriter.WriteToUserFile(fullUserPath, staffHours);
 
-                                break;
+                                    break;
 
-                            default:
-                                Console.WriteLine("Please make a valid entry.");
-                                continue;
-                        }
+                                default:
+                                    Console.WriteLine("Please make a valid entry.");
+                                    continue;
+                            }
 
-                        Console.WriteLine("Return to menu? [y] or [n]");
+                            ClearTimer(2000);
+                        Console.Write("Return to menu? [y] or any other key to exit: ");
                         string returnToMainMenu = Console.ReadLine().ToLower().Trim();
 
-                        if (returnToMainMenu != "y")
-                        {
-                            break;
+                            if (returnToMainMenu != "y")
+                            {
+                                break;
+                            }
+
                         }
 
                     }
-
-                }
-                else
-                {
-                    Console.WriteLine("No record is found... Would you like to create a profile? [y] or [n]");
-                    string choiceToCreateAProfile = Console.ReadLine().Trim().ToLower();
-
-                    if (choiceToCreateAProfile == "y")
+                    else
                     {
-                        Console.WriteLine(
-                            $"Please confirm that your first name is {firstName.ToUpper()} and your last name is {lastName.ToUpper()}");
-                        Console.Write("Confirm (y)es or (n): ");
+
+                    Console.Write("No record is found... Would you like to create a profile? [y] or any other key to exit: ");
+                    string choiceToCreateAProfile = Console.ReadLine().Trim().ToLower();
+                        ClearTimer(1000);
+                        if (choiceToCreateAProfile == "y")
+                        {
+                            Console.Write(
+                                $"Please confirm that your first name is {firstName.ToUpper()} and your last name is {lastName.ToUpper()}: ");
+                        Console.Write("Hit any key to confirm or (n) to update info: ");
                         string confirmName = Console.ReadLine().ToLower().Trim();
-
-                        if (confirmName == "n")
-                        {
-                            Console.Clear();
-                            Console.Write("Enter your first name: ");
-                            firstName = Console.ReadLine().ToLower().Trim();
-
-                            while (string.IsNullOrEmpty(firstName))
+                            ClearTimer(1000);
+                            if (confirmName == "n")
                             {
-                                Console.WriteLine("Input can't be empty! Enter your input once more");
+                                Console.Clear();
+                                Console.Write("Enter your first name: ");
                                 firstName = Console.ReadLine().ToLower().Trim();
-                            }
 
-                            Console.Write("Enter your last name: ");
-                            lastName = Console.ReadLine().ToLower().Trim();
+                                while (string.IsNullOrEmpty(firstName))
+                                {
+                                    Console.Write("Input can't be empty! Enter your input once more: ");
+                                    firstName = Console.ReadLine().ToLower().Trim();
+                                }
 
-                            while (string.IsNullOrEmpty(lastName))
-                            {
-                                Console.WriteLine("Input can't be empty! Enter your input once more");
+                                Console.Write("Enter your last name: ");
                                 lastName = Console.ReadLine().ToLower().Trim();
-                            }
-                        }
-                        else
-                        {
-                            Console.WriteLine("Great, lets add your first time sheet entry.");
 
+                                while (string.IsNullOrEmpty(lastName))
+                                {
+                                    Console.Write("Input can't be empty! Enter your input once more: ");
+                                    lastName = Console.ReadLine().ToLower().Trim();
+                                }
+
+                                fullUserPath = FileReaderWriter.UpdateUserRepoPath(firstName, lastName, workingPath);
+
+                                ClearTimer(1000);
+                            }
+
+
+                            Console.WriteLine("Great, lets add your first time sheet entry.");
+                            ClearTimer(1000);
                             Console.Write("Enter Hours: ");
                             string staffHours = Console.ReadLine().ToLower().Trim();
 
+                            while (string.IsNullOrEmpty(staffHours))
+                            {
+                                Console.Write("Input can't be empty! Enter your input once more: ");
+                                staffHours = Console.ReadLine().ToLower().Trim();
+                            }
+
+                        ClearTimer(1000);
                             FileReaderWriter.WriteToUserFile(fullUserPath, staffHours);
 
                             Console.WriteLine("Thank you for your entry, please log back in to get user features.");
-                        }
-                    }
 
-                }
-            }
+                        }
+
+                    }
+                } 
+            
 
 
             Console.WriteLine("Press an key to exit");
             Console.ReadLine();
+        }
+
+        private static void ClearTimer(int time)
+        {
+            Thread.Sleep(time);
+            Console.Clear();
         }
     }
 }

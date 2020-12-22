@@ -35,12 +35,13 @@ namespace PayrollApp
 
         public void ViewEmployeeTimeSheet()
         {
+            Console.WriteLine("---Timesheet---".PadLeft(20).PadRight(20));
             foreach (var entry in UserTimeSheets)
             {
                 Console.WriteLine(
                     $"Date: {entry.DateOfWork.ToShortDateString()} Hours: {entry.HoursWorked}");
             }
-
+            Console.WriteLine("---------------".PadLeft(20).PadRight(20));
             Console.WriteLine($"Total take home is {CalculateTotalPay():C}");
         }
 
