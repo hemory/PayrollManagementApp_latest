@@ -1,6 +1,12 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=f4b34169_002D3ce2_002D4001_002D9472_002D835f9fe97fb4/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="GetTimeSheetDataReturnsTimeSheetData" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=30a82de4_002D2233_002D4bd0_002D9fdf_002Dd27fbf8e4b11/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="CalculateTotalPayAlwaysReturnsCorrectTotalPay" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::41F5099D-344D-4273-BE26-5FB465002E6E::.NETFramework,Version=v4.6.1::PayRollApp.UnitTests.ContractorTests.CalculateTotalPayAlwaysReturnsCorrectTotalPay&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=f4b34169_002D3ce2_002D4001_002D9472_002D835f9fe97fb4/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="GetTimeSheetDataReturnsTimeSheetData" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;NUnit3x::41F5099D-344D-4273-BE26-5FB465002E6E::.NETFramework,Version=v4.6.1::PayRollApp.UnitTests.FileReaderWriterTests.GetTimeSheetDataReturnsTimeSheetData&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::41F5099D-344D-4273-BE26-5FB465002E6E::.NETFramework,Version=v4.6.1::PayRollApp.UnitTests.ContractorTests&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

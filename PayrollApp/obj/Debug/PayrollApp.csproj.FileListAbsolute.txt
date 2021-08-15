@@ -34,3 +34,13 @@ C:\Users\hphifer\source\repos\PayRollApp_v2\PayRollApp_v2\PayrollAppCSharp\Payro
 C:\Users\hphifer\source\repos\PayRollApp_v2\PayRollApp_v2\PayrollAppCSharp\PayrollApp\obj\Debug\PayrollApp.csprojAssemblyReference.cache
 C:\Users\hphifer\source\repos\PayRollApp_v2\PayRollApp_v2\PayrollAppCSharp\PayrollApp\bin\Debug\manager_repo\test.txt
 C:\Users\hphifer\source\repos\PayRollApp_v2\PayRollApp_v2\PayrollAppCSharp\PayrollApp\bin\Debug\contractor_repo\test.txt
+C:\Users\hphif\RiderProjects\PayRoll_App\PayrollManagementApp\PayrollApp\bin\Debug\contractor_repo\test.txt
+C:\Users\hphif\RiderProjects\PayRoll_App\PayrollManagementApp\PayrollApp\bin\Debug\employee_repo\hemoryphifer.txt
+C:\Users\hphif\RiderProjects\PayRoll_App\PayrollManagementApp\PayrollApp\bin\Debug\manager_repo\test.txt
+C:\Users\hphif\RiderProjects\PayRoll_App\PayrollManagementApp\PayrollApp\bin\Debug\PayrollApp.exe.config
+C:\Users\hphif\RiderProjects\PayRoll_App\PayrollManagementApp\PayrollApp\bin\Debug\PayrollApp.exe
+C:\Users\hphif\RiderProjects\PayRoll_App\PayrollManagementApp\PayrollApp\bin\Debug\PayrollApp.pdb
+C:\Users\hphif\RiderProjects\PayRoll_App\PayrollManagementApp\PayrollApp\obj\Debug\PayrollApp.csproj.AssemblyReference.cache
+C:\Users\hphif\RiderProjects\PayRoll_App\PayrollManagementApp\PayrollApp\obj\Debug\PayrollApp.csproj.CoreCompileInputs.cache
+C:\Users\hphif\RiderProjects\PayRoll_App\PayrollManagementApp\PayrollApp\obj\Debug\PayrollApp.exe
+C:\Users\hphif\RiderProjects\PayRoll_App\PayrollManagementApp\PayrollApp\obj\Debug\PayrollApp.pdb

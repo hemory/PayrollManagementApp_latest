@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="Contractor.cs" />
     <Compile Include="FileReaderWriter.cs" />
+    <Compile Include="IWorker.cs" />
     <Compile Include="Manager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

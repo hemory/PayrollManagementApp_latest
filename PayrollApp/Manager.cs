@@ -4,18 +4,12 @@ using Microsoft.SqlServer.Server;
 
 namespace PayrollApp
 {
-    public class Manager
+    public class Manager: Employee
     {
-        public double HourlyRate { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
         public double BasePay { get; set; }
-        public double TotalPay { get; set; }
         public double Bonus { get; set; }
-        public List<UserTimeSheet> UserTimeSheets { get; set; }
 
-
-        public Manager(string firstName, string lastName)
+        public Manager(string firstName, string lastName) : base(firstName, lastName)
         {
             FirstName = firstName;
             LastName = lastName;
@@ -24,7 +18,7 @@ namespace PayrollApp
             UserTimeSheets = new List<UserTimeSheet>();
         }
 
-        public double CalculateTotalPay()
+        public override double CalculateTotalPay()
         {
             double totalHoursWorked = 0;
             foreach (var entry in UserTimeSheets)
@@ -39,7 +33,7 @@ namespace PayrollApp
             return TotalPay;
         }
 
-        public void ViewManagerTimeSheet()
+        public override void ViewTimeSheet()
         {
             Console.WriteLine("---Timesheet---".PadLeft(20).PadRight(20));
             foreach (var timeSheet in UserTimeSheets)
@@ -48,9 +42,7 @@ namespace PayrollApp
                     $"Date: {timeSheet.DateOfWork.ToShortDateString()} Hours: {timeSheet.HoursWorked}");
             }
             Console.WriteLine("---------------".PadLeft(20).PadRight(20));
-            Console.WriteLine($"Total take home is {CalculateTotalPay():C}");
-        }
-
+            Console.WriteLine($"Total take home is {CalculateTotalPay():C}");        }
     }
 }
 

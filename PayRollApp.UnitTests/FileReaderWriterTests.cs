@@ -14,7 +14,7 @@ namespace PayRollApp.UnitTests
         public void CreateNewUserAddsNewTextFile()
         {
             //arrange
-            string userPath = @"C:\Users\hphifer\source\repos\PayRollApp_v2\PayRollApp_v2\PayrollAppCSharp\PayRollApp.UnitTests\TestTextFiles\johndoe.txt";
+            string userPath = @"C:\Users\hphif\RiderProjects\PayRoll_App\PayrollManagementApp\PayRollApp.UnitTests\TestTextFiles\janedoe.txt";
 
             //act
 
@@ -31,7 +31,7 @@ namespace PayRollApp.UnitTests
         public void WriteToUserFileAddsEntryToTextFile()
         {
             //arrange
-            string userPath = @"C:\Users\hphifer\source\repos\PayRollApp_v2\PayRollApp_v2\PayrollAppCSharp\PayRollApp.UnitTests\TestTextFiles\janedoe.txt";
+            string userPath = @"C:\Users\hphif\RiderProjects\PayRoll_App\PayrollManagementApp\PayRollApp.UnitTests\TestTextFiles\janedoe.txt";
 
             //act
 
@@ -47,7 +47,7 @@ namespace PayRollApp.UnitTests
         public void GetTimeSheetDataReturnsTimeSheetData()
         {
             //arrange
-            string userPath = @"C:\Users\hphifer\source\repos\PayRollApp_v2\PayRollApp_v2\PayrollAppCSharp\PayRollApp.UnitTests\TestTextFiles\timesheetdata.txt";
+            string userPath = @"C:\Users\hphif\RiderProjects\PayRoll_App\PayrollManagementApp\PayRollApp.UnitTests\TestTextFiles\janedoe.txt";
 
             //act
 
@@ -55,14 +55,13 @@ namespace PayRollApp.UnitTests
 
             //assert
             Assert.AreEqual(actualData[0].HoursWorked, 40);
-            Assert.AreEqual(actualData[0].DateOfWork.ToShortDateString(), "12/21/2020");
         }
 
         [Test]
         public void UpdateUserRepoPathReturnsUpdatedPath()
         {
             //arrange
-            string userPath = @"C:\Users\hphifer\source\repos\PayRollApp_v2\PayRollApp_v2\PayrollAppCSharp\PayRollApp.UnitTests\TestTextFiles";
+            string userPath = @"C:\Users\hphif\RiderProjects\PayRoll_App\PayrollManagementApp\PayRollApp.UnitTests\TestTextFiles\janedoe.txt";
 
             //act
 

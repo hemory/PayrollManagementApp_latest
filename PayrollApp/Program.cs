@@ -76,7 +76,7 @@ namespace PayrollApp
                             {
                                 case "1":
 
-                                    manager.ViewManagerTimeSheet();
+                                    manager.ViewTimeSheet();
 
                                     break;
 
@@ -122,7 +122,7 @@ namespace PayrollApp
                                                 UserTimeSheets = FileReaderWriter.GetTimeSheetData(fullPath)
                                             };
 
-                                            employee.ViewEmployeeTimeSheet();
+                                            employee.ViewTimeSheet();
                                         }
 
                                         if (managerViewChoice == "c")
@@ -133,7 +133,7 @@ namespace PayrollApp
                                             };
 
 
-                                            contractor.ViewContractorTimeSheet();
+                                            contractor.ViewTimeSheet();
                                         }
                                     }
                                     else
@@ -248,7 +248,7 @@ namespace PayrollApp
                             {
                                 case "1":
 
-                                    employee.ViewEmployeeTimeSheet();
+                                    employee.ViewTimeSheet();
 
                                     break;
 
@@ -370,7 +370,7 @@ namespace PayrollApp
                             {
                                 case "1":
 
-                                    contractor.ViewContractorTimeSheet();
+                                    contractor.ViewTimeSheet();
 
                                     break;
 

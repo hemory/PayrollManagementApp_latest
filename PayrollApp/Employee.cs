@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace PayrollApp
 {
-    public class Employee
+    public class Employee :IWorker
     {
         public double HourlyRate { get; set; }
         public string FirstName { get; set; }
@@ -20,7 +20,7 @@ namespace PayrollApp
         }
 
 
-        public double CalculateTotalPay()
+        public virtual double CalculateTotalPay()
         {
             double totalHoursWorked = 0;
             foreach (var entry in UserTimeSheets)
@@ -33,7 +33,7 @@ namespace PayrollApp
             return TotalPay;
         }
 
-        public void ViewEmployeeTimeSheet()
+        public virtual void ViewTimeSheet()
         {
             Console.WriteLine("---Timesheet---".PadLeft(20).PadRight(20));
             foreach (var entry in UserTimeSheets)
@@ -42,8 +42,6 @@ namespace PayrollApp
                     $"Date: {entry.DateOfWork.ToShortDateString()} Hours: {entry.HoursWorked}");
             }
             Console.WriteLine("---------------".PadLeft(20).PadRight(20));
-            Console.WriteLine($"Total take home is {CalculateTotalPay():C}");
-        }
-
+            Console.WriteLine($"Total take home is {CalculateTotalPay():C}");        }
     }
 }

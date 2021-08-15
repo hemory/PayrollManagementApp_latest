@@ -3,17 +3,13 @@ using System.Collections.Generic;
 
 namespace PayrollApp
 {
-    public class Contractor
+    public class Contractor :Employee
     {
-        public double HourlyRate { get;}
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
         public double BasePay { get; set; }
-        public double TotalPay { get; private set; }
         public double OvertimeRate { get; private set; }
-        public List<UserTimeSheet> UserTimeSheets { get; set; }
+     
 
-        public Contractor(string firstName, string lastName)
+        public Contractor(string firstName, string lastName) :base(firstName, lastName)
         {
             FirstName = firstName;
             LastName = lastName;
@@ -22,7 +18,7 @@ namespace PayrollApp
 
         }
 
-        public double CalculateTotalPay()
+        public override double CalculateTotalPay()
         {
             List<double> totalForEachEntryList = new List<double>();
 
@@ -53,18 +49,7 @@ namespace PayrollApp
             return timeSheetTotal;
         }
 
-        //Private because its only used in class
-        private double CalculateOvertimeRate(double hoursOver40)
-        {
-            OvertimeRate = 30 * 1.5;
-
-            double overTimeTotal = hoursOver40 * OvertimeRate;
-
-
-            return overTimeTotal;
-        }
-
-        public void ViewContractorTimeSheet()
+        public override void ViewTimeSheet()
         {
             Console.WriteLine("---Timesheet---".PadLeft(20).PadRight(20));
             foreach (var entry in UserTimeSheets)
@@ -74,6 +59,17 @@ namespace PayrollApp
             }
             Console.WriteLine("---------------".PadLeft(20).PadRight(20));
             Console.WriteLine($"Total take home is {CalculateTotalPay():C}");
+        }
+
+        //Private because its only used in class
+        private double CalculateOvertimeRate(double hoursOver40)
+        {
+            OvertimeRate = 30 * 1.5;
+
+            double overTimeTotal = hoursOver40 * OvertimeRate;
+
+
+            return overTimeTotal;
         }
     }
 }
